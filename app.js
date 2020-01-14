@@ -32,6 +32,16 @@ app.get("/api/v1/reviews", (req, res) => {
     });
 });
 
+app.get("/api/v1/activities_and_reviews", (req, res) => {
+  // res.send("hello");
+  knex("reviews")
+    // .groupBy("activities_info.activity")
+    .join("activities_info", "activities_info.id", "=", "reviews.activity_id")
+    .select("activities_info.activity", "reviews.review")
+    .then(result => {
+      res.json(result);
+    });
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000!");
