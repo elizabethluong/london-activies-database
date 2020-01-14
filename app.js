@@ -21,11 +21,20 @@ app.get("/api/v1/activities_info", (req, res) => {
       res.json(result);
     });
 });
-// Test route for adding data
-app.get("/test", (req, res) => {
-  knex("reviews").insert({ review: "Horrible!", activity_id: "1" });
+
+app.get("/api/v1/reviews", (req, res) => {
+  // res.send("hello");
+  knex("reviews")
+    .select("*")
+    .from("reviews")
+    .then(result => {
+      res.json(result);
+    });
 });
+
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000!");
 });
+
+module.exports = app;

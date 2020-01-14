@@ -12,7 +12,17 @@ module.exports = {
       directory: __dirname + '/db/migrations'
     },
     seeds: {
-      directory: __dirname + '/db/seeds/development'
+      directory: __dirname + '/db/seeds'
+    }
+  },
+  test: {
+    client: 'pg',
+    connection: `postgres://${user}:${password}@localhost/activities_test`,
+    migrations: {
+      directory: __dirname + '/db/migrations'
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds'
     }
   }
 };
