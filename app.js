@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const knex = require("knex");
+const knex = require("./db/knex.js");
 const app = express();
 
 // Parse requests into json format.
@@ -18,10 +18,10 @@ app.get("/api/v1/activities_info", (req, res) => {
     .select("*")
     .from("activities_info")
     .then(result => {
-      res.json(response);
+      res.json(result);
     });
 });
-
+// Test route for adding data
 app.get("/test", (req, res) => {
   knex("reviews").insert({ review: "Horrible!", activity_id: "1" });
 });
