@@ -43,7 +43,7 @@ app.get("/api/v1/activities_and_reviews", (req, res) => {
     });
 });
 
-app.get("/api/v1/activity/:id", (req, res) => {
+app.get("/api/v1/activity/id/:id", (req, res) => {
   const id = parseInt(req.params.id);
   knex("activities_info")
     .select("*")
@@ -55,8 +55,18 @@ app.get("/api/v1/activity/:id", (req, res) => {
     });
 });
 
+app.get("/api/v1/activity/type_of_activity/:type_of_activity", (req, res) => {
+  const type_of_activity = req.params.type_of_activity;
+  knex("activities_info")
+    .select("*")
+    .from("activities_info")
+    .where({type_of_activity : type_of_activity })
+    .then(result => {
+      res.json(result);
+    });
+});
+
 app.post("/api/v1/add_activity", (req, res) => {
-  console.log(req.body);
   knex("activities_info")
     .insert({
       activity: req.body.activity.length > 0 ? req.body.activity : null,

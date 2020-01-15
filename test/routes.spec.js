@@ -72,10 +72,10 @@ describe('API Routes', function () {
         });
     });
 
-    describe('GET /api/v1/activity/:id', function () {
+    describe('GET /api/v1/activity/id/:id', function () {
         it('should return the activity matching the id given', function (done) {
             chai.request(server)
-                .get('/api/v1/activity/1')
+                .get('/api/v1/activity/id/1')
                 .end(function (err, res) {
                     res.should.have.status(200);
                     res.should.be.json; // jshint ignore:line
@@ -95,6 +95,27 @@ describe('API Routes', function () {
         });
     });
 
+    describe('GET /api/v1/activity/type_of_activity/:type_of_activity', function () {
+        it('should return the activity matching the type given', function (done) {
+            chai.request(server)
+                .get('/api/v1/activity/type_of_activity/museum')
+                .end(function (err, res) {
+                    res.should.have.status(200);
+                    res.should.be.json; // jshint ignore:line
+                    res.body.should.be.a('array');
+                    res.body[0].should.have.property('activity');
+                    res.body[0].activity.should.equal("the tate modern");
+                    res.body[0].should.have.property('area');
+                    res.body[0].area.should.equal("bankside");
+                    res.body[0].should.have.property('price');
+                    res.body[0].price.should.equal('free');
+                    res.body[0].should.have.property('type_of_activity');
+                    res.body[0]['type_of_activity'].should.equal('museum');
+                    done();
+                });
+        });
+    });
+
     describe('POST /api/v1/add_activity', function () {
         it('should add an activity to the database', function (done) {
             chai.request(server)
@@ -107,7 +128,7 @@ describe('API Routes', function () {
                 })
                 .then((res) => {
                     chai.request(server)
-                        .get('/api/v1/activity/5')
+                        .get('/api/v1/activity/id/5')
                         .end(function (err, res) {
                             res.should.have.status(200);
                             // res.should.be.json; // jshint ignore:line
