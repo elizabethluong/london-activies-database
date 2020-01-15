@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Form</title>
+  </head>
+  <body>
+    <h1>Add activity in the form below</h1>
+    <form action="/api/v1/add_activity" method="POST">
+      <label for="activity">activity</label>
+      <input type="text" name="activity" />
+      <label for="area">area</label>
+      <input type="text" name="area" />
+      <label for="price">price</label>
+      <input type="text" name="price" />
+      <label for="type_of_activity">type of asctivity</label>
+      <input type="text" name="type_of_activity" />
+      <input type="submit" value="add activity" />
+    </form>
+  </body>
+</html>

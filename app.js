@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.json({ message: "Insert homepage message here" });
+  res.sendFile(__dirname + "/views/index.html");
 });
 
 app.get("/api/v1/activities_info", (req, res) => {
@@ -43,16 +43,35 @@ app.get("/api/v1/activities_and_reviews", (req, res) => {
     });
 });
 
-app.get('/api/v1/activity/:id', (req, res) => {
+app.get("/api/v1/activity/:id", (req, res) => {
   const id = parseInt(req.params.id);
   knex("activities_info")
-  .select('*')
-  .from('activities_info')
-  .where({id : id})
-  .first()
-  .then((promise) => {
-    res.send(promise);
-  })
+    .select("*")
+    .from("activities_info")
+    .where({ id: id })
+    .first()
+    .then(promise => {
+      res.send(promise);
+    });
+});
+
+app.post("/api/v1/add_activity", (req, res) => {
+  console.log(req.body);
+  knex("activities_info")
+    .insert({
+      activity: req.body.activity.length > 0 ? req.body.activity : null,
+      area: req.body.area.length > 0 ? req.body.area : null,
+      price: req.body.price.length > 0 ? req.body.price : null,
+      type_of_activity:
+        req.body.type_of_activity.length > 0 ? req.body.type_of_activity : null
+    })
+    .then(promise => {
+      res.json(promise);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  res.redirect("/");
 });
 
 app.listen(3000, () => {
