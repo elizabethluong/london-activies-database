@@ -72,6 +72,29 @@ describe('API Routes', function () {
         });
     });
 
+    describe('GET /api/v1/activity/:id', function () {
+        it('should return the activity matching the id given', function (done) {
+            chai.request(server)
+                .get('/api/v1/activity/1')
+                .end(function (err, res) {
+                    res.should.have.status(200);
+                    res.should.be.json; // jshint ignore:line
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('id');
+                    res.body.id.should.equal(1);
+                    res.body.should.have.property('activity');
+                    res.body.activity.should.equal("vinyasa yoga");
+                    res.body.should.have.property('area');
+                    res.body['area'].should.equal('kings cross');
+                    res.body.should.have.property('price');
+                    res.body['price'].should.equal('medium');
+                    res.body.should.have.property('type_of_activity');
+                    res.body['type_of_activity'].should.equal('wellbeing');
+                    done();
+                });
+        });
+    });
+
     // describe('GET /api/v1/shows/:id', function () {
     //     it('should return a single show', function (done) {
     //         chai.request(server)
