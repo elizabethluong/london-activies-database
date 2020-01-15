@@ -60,7 +60,7 @@ app.get("/api/v1/activity/type_of_activity/:type_of_activity", (req, res) => {
   knex("activities_info")
     .select("*")
     .from("activities_info")
-    .where({type_of_activity : type_of_activity })
+    .where({ type_of_activity: type_of_activity })
     .then(result => {
       res.json(result);
     });
@@ -82,6 +82,34 @@ app.post("/api/v1/add_activity", (req, res) => {
       console.log(error);
     });
   // res.redirect("/");
+});
+
+app.get("/api/v1/update_activity", (req, res) => {
+  res.sendFile(__dirname + "/views/edit_activity.html");
+});
+
+app.post("/api/v1/activity_updated", (req, res) => {
+  let valuesToUpdate = {};
+  for (key of Object.keys(req.body)) {
+    if (key === "id") {
+      continue;
+    } else if (req.body[key] === "") {
+      continue;
+    } else {
+      valuesToUpdate[key] = req.body[key];
+    }
+  }
+  console.log(valuesToUpdate);
+  knex("activities_info")
+    .where("id", "=", parseInt(req.body.id))
+    .update(valuesToUpdate)
+    .then(promise => {
+      res.json(promise);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  res.redirect("/api/v1/activity/id/" + req.body.id);
 });
 
 app.listen(3000, () => {
