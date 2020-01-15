@@ -50,8 +50,8 @@ app.get("/api/v1/activity/:id", (req, res) => {
     .from("activities_info")
     .where({ id: id })
     .first()
-    .then(promise => {
-      res.send(promise);
+    .then(result => {
+      res.json(result);
     });
 });
 
@@ -71,7 +71,7 @@ app.post("/api/v1/add_activity", (req, res) => {
     .catch(error => {
       console.log(error);
     });
-  res.redirect("/");
+  // res.redirect("/");
 });
 
 app.listen(3000, () => {

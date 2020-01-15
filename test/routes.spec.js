@@ -95,96 +95,36 @@ describe('API Routes', function () {
         });
     });
 
-    // describe('GET /api/v1/shows/:id', function () {
-    //     it('should return a single show', function (done) {
-    //         chai.request(server)
-    //             .get('/api/v1/shows/1')
-    //             .end(function (err, res) {
-    //                 res.should.have.status(200);
-    //                 res.should.be.json; // jshint ignore:line
-    //                 res.body.should.be.a('object');
-    //                 res.body.should.have.property('name');
-    //                 res.body.name.should.equal('Suits');
-    //                 res.body.should.have.property('channel');
-    //                 res.body.channel.should.equal('USA Network');
-    //                 res.body.should.have.property('genre');
-    //                 res.body.genre.should.equal('Drama');
-    //                 res.body.should.have.property('rating');
-    //                 res.body.rating.should.equal(3);
-    //                 res.body.should.have.property('explicit');
-    //                 res.body.explicit.should.equal(false);
-    //                 done();
-    //             });
-    //     });
-    //     it('should return a 404 error if there is no show corresponding to the id supplied', function (done) {
-    //         chai.request(server)
-    //             .get('/api/v1/shows/5')
-    //             .end(function (err, res) {
-    //                 res.should.have.status(404);
-    //                 res.should.be.json; // jshint ignore:line
-    //                 res.body.should.be.a('object');
-    //                 res.body.should.have.property('error');
-    //                 res.body.error.should.equal('This entry does not exist.')
-    //                 done();
-    //             })
-    //     });
-    // });
-
-    // describe('GET /api/v1/search_for_shows', function () {
-    //     it('should return an array of shows matching the queries provided, or an empty array if no shows match', function (done) {
-    //         chai.request(server)
-    //             .get('/api/v1/search_for_shows/?genre=Drama')
-    //             .end(function (err, res) {
-    //                 res.should.have.status(200);
-    //                 res.should.be.json; // jshint ignore:line
-    //                 res.body.should.be.a('array');
-    //                 res.body.should.have.length(2);
-    //                 res.body[0].should.have.property('name');
-    //                 res.body[0].name.should.equal('Suits');
-    //                 res.body[1].should.have.property('name');
-    //                 res.body[1].name.should.equal('Mad Men');
-    //             });
-    //         chai.request(server)
-    //             .get('/api/v1/search_for_shows/?genre=IntentionallyErroneousGenre')
-    //             .end(function (err, res) {
-    //                 res.should.have.status(200);
-    //                 res.should.be.json; // jshint ignore:line
-    //                 res.body.should.be.a('array');
-    //                 res.body.should.have.length(0);
-    //                 done();
-    //             });
-    //     });
-    // });
-
-    // describe('POST /api/v1/shows', function () {
-    //     it('should add a show', function (done) {
-    //         chai.request(server)
-    //             .post('/api/v1/shows')
-    //             .send({
-    //                 name: 'Family Guy',
-    //                 channel: 'Fox',
-    //                 genre: 'Comedy',
-    //                 rating: 4,
-    //                 explicit: true
-    //             })
-    //             .end(function (err, res) {
-    //                 res.should.have.status(200);
-    //                 res.should.be.json; // jshint ignore:line
-    //                 res.body.should.be.a('object');
-    //                 res.body.should.have.property('name');
-    //                 res.body.name.should.equal('Family Guy');
-    //                 res.body.should.have.property('channel');
-    //                 res.body.channel.should.equal('Fox');
-    //                 res.body.should.have.property('genre');
-    //                 res.body.genre.should.equal('Comedy');
-    //                 res.body.should.have.property('rating');
-    //                 res.body.rating.should.equal(4);
-    //                 res.body.should.have.property('explicit');
-    //                 res.body.explicit.should.equal(true);
-    //                 done();
-    //             });
-    //     });
-    // });
+    describe('POST /api/v1/add_activity', function () {
+        it('should add an activity to the database', function (done) {
+            chai.request(server)
+                .post('/api/v1/add_activity')
+                .send({
+                    activity: 'fishing',
+                    area: 'southbank',
+                    price: 'free',
+                    type_of_activity: 'outdoors'
+                })
+                .then((res) => {
+                    chai.request(server)
+                        .get('/api/v1/activity/5')
+                        .end(function (err, res) {
+                            res.should.have.status(200);
+                            // res.should.be.json; // jshint ignore:line
+                            res.body.should.be.a('object');
+                            res.body.should.have.property('activity');
+                            res.body.activity.should.equal('fishing');
+                            res.body.should.have.property('area');
+                            res.body.area.should.equal('southbank');
+                            res.body.should.have.property('price');
+                            res.body.price.should.equal('free');
+                            res.body.should.have.property('type_of_activity');
+                            res.body['type_of_activity'].should.equal('outdoors'); 
+                            done();
+                        })
+                });
+        });
+    });
 
     // describe('PUT /api/v1/shows/:id', function () {
     //     it('should update a show', function (done) {
